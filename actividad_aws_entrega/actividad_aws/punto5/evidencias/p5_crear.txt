@@ -1,0 +1,21 @@
+$ bash despliegue_p5.sh crear 2>&1 | tee evidencias_p5_crear.txt
+[20:42:13] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[20:42:19] Bucket fp-taller-p5-XXXXXXXXXXXX creado
+[20:42:22] Rol fp-taller-p5-redshift-s3 creado (solo lectura del bucket): arn:aws:iam::XXXXXXXXXXXX:role/fp-taller-p5-redshift-s3
+[20:42:39] SG fp-taller-p5-sg-redshift creado: sg-0240b004ebd72c807 (sin reglas de entrada)
+[20:42:39] Namespace fp-taller-p5-ns en creación
+[20:42:40] Namespace disponible
+[20:42:42] Workgroup fp-taller-p5-wg (4 RPU) en creación
+[20:42:43] Workgroup: CREATING, esperando 20 s...
+[20:43:04] Workgroup: CREATING, esperando 20 s...
+[20:43:25] Workgroup: CREATING, esperando 20 s...
+[20:43:45] Workgroup disponible
+
+===== Estado de los recursos (punto 5) =====
+Bucket S3     : fp-taller-p5-XXXXXXXXXXXX
+Rol IAM       : arn:aws:iam::XXXXXXXXXXXX:role/fp-taller-p5-redshift-s3
+SG Redshift   : sg-0240b004ebd72c807
+Namespace     : fp-taller-p5-ns | AVAILABLE | base taller | admin taller_admin
+Secreto admin : arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:redshift!fp-taller-p5-ns-taller_admin-J2Vj98
+Workgroup     : fp-taller-p5-wg | AVAILABLE | 4-4 RPU | público=False
+============================================

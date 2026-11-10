@@ -1,0 +1,9 @@
+venta_id,fecha,ciudad,codigo_postal,categoria,producto,cantidad,precio_unitario,metodo_pago,devuelto
+7025,2026-11-01,Bogotá,110111,Tecnología,Audífonos,1,150000,transferencia,false
+7026,2026-11-02,Cali,760001,Tecnología,Audífonos,1,150000,transferencia,true
+7027,2026-11-06,Medellín,050001,Tecnología,Monitor,3,890000,transferencia,false
+7028,2026-11-12,Bogotá,110111,Deportes,Bicicleta,2,1450000,transferencia,false
+7029,2026-11-14,Cali,760001,Tecnología,Portátil,4,3200000,tarjeta,false
+7030,2026-11-24,Barranquilla,080001,Libros,Novela,1,65000,transferencia,true
+7031,2026-11-27,Bogotá,110111,Tecnología,Audífonos,2,150000,efectivo,false
+7032,2026-11-28,Cali,760001,Libros,Novela,1,65000,tarjeta,false

@@ -1,0 +1,29 @@
+$ bash despliegue_cli.sh destruir 2>&1 | tee evidencias_cli_destruir.txt
+[16:23:07] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[16:23:10] EC2 en terminación: i-02104ae77fe4b367a
+[16:23:12] RDS fp-taller-p2-cli-rds en eliminación (su secreto administrado se borra con ella)
+[16:23:43] EC2 terminada (su volumen gp3 se borra con ella)
+[16:23:43] Esperando a que RDS se elimine...
+[16:24:43] RDS eliminada
+[16:24:44] DB subnet group fp-taller-p2-cli-subnets eliminado
+{
+    "Return": true,
+    "GroupId": "sg-01cdabb3f332fe597"
+}
+[16:24:47] SG fp-taller-p2-cli-sg-rds eliminado
+{
+    "Return": true,
+    "GroupId": "sg-07d9af51335000ac6"
+}
+[16:24:50] SG fp-taller-p2-cli-sg-ec2 eliminado
+[16:24:53] Bucket fp-taller-p2-cli-XXXXXXXXXXXX eliminado
+
+===== Estado de los recursos (Metodo=cli) =====
+SG EC2       : -
+SG RDS       : -
+Subnet group : -
+RDS          : -
+EC2          : -
+Bucket S3    : -
+===============================================
+

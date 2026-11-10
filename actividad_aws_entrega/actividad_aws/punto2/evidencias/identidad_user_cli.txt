@@ -1,0 +1,15 @@
+$ aws sts get-caller-identity
+{
+    "UserId": "AIDAXXXXXXXXXXXXXXXXX",
+    "Account": "XXXXXXXXXXXX",
+    "Arn": "arn:aws:iam::XXXXXXXXXXXX:user/user_cli"
+}
+
+$ aws iam list-attached-user-policies --user-name user_cli
+{
+    "AttachedPolicies": [
+        {"PolicyName": "AdministratorAccess", "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"},
+        {"PolicyName": "IAMUserChangePassword", "PolicyArn": "arn:aws:iam::aws:policy/IAMUserChangePassword"},
+        {"PolicyName": "AmazonS3FullAccess", "PolicyArn": "arn:aws:iam::aws:policy/AmazonS3FullAccess"}
+    ]
+}

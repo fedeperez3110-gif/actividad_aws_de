@@ -1,0 +1,13 @@
+cliente_id,nombre,ciudad,segmento,fecha_registro
+1,Ana Gómez,Bogotá,Empresa,2025-01-15
+2,Luis Pérez,Medellín,Persona,2025-02-03
+3,María Rojas,Cali,Empresa,2025-02-20
+4,Carlos Díaz,Bogotá,Persona,2025-03-11
+5,Sofía Martínez,Barranquilla,Persona,2025-04-07
+6,Jorge Herrera,Medellín,Empresa,2025-04-22
+7,Valentina Ruiz,Bogotá,Empresa,2025-05-30
+8,Andrés Castro,Cali,Persona,2025-06-14
+9,Camila Torres,Medellín,Persona,2025-07-02
+10,Felipe Moreno,Barranquilla,Empresa,2025-07-19
+11,Laura Vargas,Bogotá,Persona,2025-08-05
+12,Daniel Ortiz,Cali,Empresa,2025-09-12

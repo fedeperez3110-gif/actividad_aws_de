@@ -1,0 +1,85 @@
+$ bash despliegue_p6.sh agregar
+[23:08:58] Registros nuevos cargados:
+    datos/ventas/mes=2026-09/ventas.csv (983 bytes)
+    datos/ventas/mes=2026-10/ventas.csv (1014 bytes)
+    datos/ventas/mes=2026-11/ventas.csv (727 bytes)
+
+$ python3 glue_athena.py consultas   # B: noviembre ya está en S3, catálogo sin actualizar
+
+==============================================================================
+1) Filtro: ventas de Tecnología no devueltas de más de 1.000.000
+==============================================================================
+  SQL> SELECT venta_id, fecha, ciudad, codigo_postal, producto, cantidad, cantidad * precio_unitario AS total FROM ventas WHERE categoria = 'Tecnología' AND NOT devuelto AND cantidad * precio_unitario > 1000000 ORDER BY total DESC
+  -> SUCCEEDED en 0.61 s | datos escaneados: 1,997 bytes
+  venta_id | fecha      | ciudad       | codigo_postal | producto | cantidad | total  
+  ---------+------------+--------------+---------------+----------+----------+--------
+  7012     | 2026-09-28 | Cali         | 760001        | Monitor  | 4        | 3560000
+  7015     | 2026-10-15 | Barranquilla | 080001        | Monitor  | 2        | 1780000
+  7004     | 2026-09-17 | Bogotá       | 110111        | Monitor  | 2        | 1780000
+
+==============================================================================
+2) Agrupación: ventas y devoluciones por ciudad
+==============================================================================
+  SQL> SELECT ciudad, codigo_postal, COUNT(*) AS ventas, SUM(cantidad * precio_unitario) AS total, SUM(CASE WHEN devuelto THEN 1 ELSE 0 END) AS devoluciones FROM ventas GROUP BY ciudad, codigo_postal ORDER BY total DESC
+  -> SUCCEEDED en 0.63 s | datos escaneados: 1,997 bytes
+  ciudad       | codigo_postal | ventas | total    | devoluciones
+  -------------+---------------+--------+----------+-------------
+  Cali         | 760001        | 7      | 14090000 | 1           
+  Bogotá       | 110111        | 5      | 14075000 | 1           
+  Barranquilla | 080001        | 7      | 13300000 | 0           
+  Medellín     | 050001        | 5      | 1940000  | 0           
+
+==============================================================================
+Registros por partición en ventas
+==============================================================================
+  SQL> SELECT mes, COUNT(*) AS registros, MIN(fecha) AS primera_fecha, MAX(fecha) AS ultima_fecha FROM ventas GROUP BY mes ORDER BY mes
+  -> SUCCEEDED en 0.74 s | datos escaneados: 1,997 bytes
+  mes     | registros | primera_fecha | ultima_fecha
+  --------+-----------+---------------+-------------
+  2026-09 | 12        | 2026-09-04    | 2026-09-28  
+  2026-10 | 12        | 2026-10-05    | 2026-10-26  
+
+$ bash despliegue_p6.sh crawler
+[23:09:05] Crawler fp-taller-p6-crawler iniciado
+[23:09:15] Crawler: RUNNING, esperando 15 s...
+[23:09:31] Crawler: RUNNING, esperando 15 s...
+[23:09:46] Última ejecución: SUCCEEDED (inicio 2026-11-09T23:09:04-05:00)
+[23:09:47] Duración: 38.146 s | tablas creadas: 0 | tablas actualizadas: 0
+
+$ python3 glue_athena.py consultas   # C: después del crawler
+
+==============================================================================
+1) Filtro: ventas de Tecnología no devueltas de más de 1.000.000
+==============================================================================
+  SQL> SELECT venta_id, fecha, ciudad, codigo_postal, producto, cantidad, cantidad * precio_unitario AS total FROM ventas WHERE categoria = 'Tecnología' AND NOT devuelto AND cantidad * precio_unitario > 1000000 ORDER BY total DESC
+  -> SUCCEEDED en 0.70 s | datos escaneados: 2,724 bytes
+  venta_id | fecha      | ciudad       | codigo_postal | producto | cantidad | total   
+  ---------+------------+--------------+---------------+----------+----------+---------
+  7029     | 2026-11-14 | Cali         | 760001        | Portátil | 4        | 12800000
+  7012     | 2026-09-28 | Cali         | 760001        | Monitor  | 4        | 3560000 
+  7027     | 2026-11-06 | Medellín     | 050001        | Monitor  | 3        | 2670000 
+  7004     | 2026-09-17 | Bogotá       | 110111        | Monitor  | 2        | 1780000 
+  7015     | 2026-10-15 | Barranquilla | 080001        | Monitor  | 2        | 1780000 
+
+==============================================================================
+2) Agrupación: ventas y devoluciones por ciudad
+==============================================================================
+  SQL> SELECT ciudad, codigo_postal, COUNT(*) AS ventas, SUM(cantidad * precio_unitario) AS total, SUM(CASE WHEN devuelto THEN 1 ELSE 0 END) AS devoluciones FROM ventas GROUP BY ciudad, codigo_postal ORDER BY total DESC
+  -> SUCCEEDED en 0.74 s | datos escaneados: 2,724 bytes
+  ciudad       | codigo_postal | ventas | total    | devoluciones
+  -------------+---------------+--------+----------+-------------
+  Cali         | 760001        | 10     | 27105000 | 2           
+  Bogotá       | 110111        | 8      | 17425000 | 1           
+  Barranquilla | 080001        | 8      | 13365000 | 1           
+  Medellín     | 050001        | 6      | 4610000  | 0           
+
+==============================================================================
+Registros por partición en ventas
+==============================================================================
+  SQL> SELECT mes, COUNT(*) AS registros, MIN(fecha) AS primera_fecha, MAX(fecha) AS ultima_fecha FROM ventas GROUP BY mes ORDER BY mes
+  -> SUCCEEDED en 0.70 s | datos escaneados: 2,724 bytes
+  mes     | registros | primera_fecha | ultima_fecha
+  --------+-----------+---------------+-------------
+  2026-09 | 12        | 2026-09-04    | 2026-09-28  
+  2026-10 | 12        | 2026-10-05    | 2026-10-26  
+  2026-11 | 8         | 2026-11-01    | 2026-11-28 

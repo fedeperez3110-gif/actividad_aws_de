@@ -1,0 +1,20 @@
+$ python3 despliegue_boto3.py destruir 2>&1 | tee evidencias_boto3_destruir.txt
+[00:35:04] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[00:35:05] EC2 en terminación: ['i-0ed4c331863a78b9f']
+[00:35:06] RDS fp-taller-p2-boto3-rds en eliminación (su secreto administrado se borra con ella)
+[00:35:36] EC2 terminada (su volumen gp3 se borra con ella)
+[00:35:36] Esperando a que RDS se elimine (suele tardar 5-10 minutos)...
+[00:36:36] RDS eliminada
+[00:36:36] DB subnet group fp-taller-p2-boto3-subnets eliminado
+[00:36:36] SG fp-taller-p2-boto3-sg-rds eliminado
+[00:36:37] SG fp-taller-p2-boto3-sg-ec2 eliminado
+[00:36:39] Bucket fp-taller-p2-boto3-XXXXXXXXXXXX eliminado
+
+===== Estado de los recursos (Metodo=boto3) =====
+SG EC2       : -
+SG RDS       : -
+Subnet group : -
+RDS          : -
+EC2          : -
+Bucket S3    : -
+=================================================

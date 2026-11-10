@@ -1,0 +1,33 @@
+$ python3 glue_athena.py consultas   # A: 24 registros iniciales
+==============================================================================
+1) Filtro: ventas de Tecnología no devueltas de más de 1.000.000
+==============================================================================
+  SQL> SELECT venta_id, fecha, ciudad, codigo_postal, producto, cantidad, cantidad * precio_unitario AS total FROM ventas WHERE categoria = 'Tecnología' AND NOT devuelto AND cantidad * precio_unitario > 1000000 ORDER BY total DESC
+  -> SUCCEEDED en 0.64 s | datos escaneados: 1,997 bytes
+  venta_id | fecha      | ciudad       | codigo_postal | producto | cantidad | total  
+  ---------+------------+--------------+---------------+----------+----------+--------
+  7012     | 2026-09-28 | Cali         | 760001        | Monitor  | 4        | 3560000
+  7015     | 2026-10-15 | Barranquilla | 080001        | Monitor  | 2        | 1780000
+  7004     | 2026-09-17 | Bogotá       | 110111        | Monitor  | 2        | 1780000
+
+==============================================================================
+2) Agrupación: ventas y devoluciones por ciudad
+==============================================================================
+  SQL> SELECT ciudad, codigo_postal, COUNT(*) AS ventas, SUM(cantidad * precio_unitario) AS total, SUM(CASE WHEN devuelto THEN 1 ELSE 0 END) AS devoluciones FROM ventas GROUP BY ciudad, codigo_postal ORDER BY total DESC
+  -> SUCCEEDED en 1.27 s | datos escaneados: 1,997 bytes
+  ciudad       | codigo_postal | ventas | total    | devoluciones
+  -------------+---------------+--------+----------+-------------
+  Cali         | 760001        | 7      | 14090000 | 1           
+  Bogotá       | 110111        | 5      | 14075000 | 1           
+  Barranquilla | 080001        | 7      | 13300000 | 0           
+  Medellín     | 050001        | 5      | 1940000  | 0           
+
+==============================================================================
+Registros por partición en ventas
+==============================================================================
+  SQL> SELECT mes, COUNT(*) AS registros, MIN(fecha) AS primera_fecha, MAX(fecha) AS ultima_fecha FROM ventas GROUP BY mes ORDER BY mes
+  -> SUCCEEDED en 0.77 s | datos escaneados: 1,997 bytes
+  mes     | registros | primera_fecha | ultima_fecha
+  --------+-----------+---------------+-------------
+  2026-09 | 12        | 2026-09-04    | 2026-09-28  
+  2026-10 | 12        | 2026-10-05    | 2026-10-26  

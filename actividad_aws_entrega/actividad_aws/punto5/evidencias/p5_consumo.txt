@@ -1,0 +1,5 @@
+$ aws redshift-data execute-statement ... --sql "SELECT trunc(start_time) AS dia, SUM(charged_seconds) AS rpu_segundos, ROUND(SUM(charged_seconds)/3600.0*0.36,4) AS costo_usd FROM sys_serverless_usage GROUP BY 1"
+$ aws redshift-data get-statement-result --id "$ID" --query "Records" --output text
+2026-11-10
+240
+        0.0240

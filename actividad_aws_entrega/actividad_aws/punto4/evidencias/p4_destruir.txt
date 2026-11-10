@@ -1,0 +1,20 @@
+$ bash despliegue_p4.sh destruir 2>&1 | tee evidencias_p4_destruir.txt
+[16:50:22] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[16:50:26] Instancia fp-taller-p4-neptune-1 en eliminación...
+[17:02:55] Instancia eliminada
+[17:02:58] Clúster fp-taller-p4-neptune en eliminación...
+[17:03:41] Clúster eliminado
+[17:03:42] Grupo de subredes fp-taller-p4-subnets eliminado
+[17:03:44] SG fp-taller-p4-sg-neptune eliminado
+
+===== Estado de los recursos (punto 4) =====
+SG Neptune    : -
+Clúster       : -
+============================================
+
+$ aws neptune describe-db-clusters --query "DBClusters[?Engine=='neptune'].DBClusterIdentifier" --output json
+[]
+$ aws neptune describe-db-cluster-snapshots --query "DBClusterSnapshots[].DBClusterSnapshotIdentifier" --output json
+[]
+$ aws ec2 describe-security-groups --filters Name=group-name,Values=fp-taller-p4-sg-neptune --query "SecurityGroups[].GroupId" --output json
+[]

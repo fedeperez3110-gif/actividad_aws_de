@@ -1,0 +1,22 @@
+$ bash despliegue_p6.sh destruir 2>&1 | tee evidencias_p6_destruir.txt
+[23:14:09] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[23:14:12] Crawler fp-taller-p6-crawler eliminado
+[23:14:15] Base de datos taller_p6 eliminada (con sus tablas)
+[23:14:19] Rol fp-taller-p6-glue-crawler eliminado
+[23:14:21] Bucket fp-taller-p6-XXXXXXXXXXXX eliminado (datos y resultados de Athena)
+
+===== Estado de los recursos (punto 6) =====
+Bucket S3     : -
+Rol IAM       : -
+Base catálogo : -
+Crawler       : -
+============================================
+
+$ aws glue get-databases --query "DatabaseList[?Name=='taller_p6'].Name" --output json
+[]
+$ aws glue list-crawlers --query "CrawlerNames" --output json
+[]
+$ aws iam get-role --role-name fp-taller-p6-glue-crawler
+An error occurred (NoSuchEntity) when calling the GetRole operation: The role with name fp-taller-p6-glue-crawler cannot be found.
+$ aws s3 ls | grep fp-taller-p6 || echo "sin bucket del punto 6"
+sin bucket del punto 6

@@ -1,0 +1,24 @@
+$ bash despliegue_cli.sh crear 2>&1 | tee evidencias_cli_crear.txt
+[14:28:05] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[14:28:10] VPC: vpc-0b37a726a59af6c89 | subredes: subnet-0daf5e4b6a78ea861      subnet-0d8b061385cf1d3f9      subnet-0cc98ed67e7eed8c0 | AMI: ami-08b6f1774976ca3d5
+[14:28:10] SG fp-taller-p2-cli-sg-ec2 creado: sg-03a824b80218973bc
+[14:28:12] SG fp-taller-p2-cli-sg-rds creado: sg-037ae200f40c010b3
+[14:28:13] Regla RDS <- EC2:5432 creada
+[14:28:15] DB subnet group fp-taller-p2-cli-subnets creado
+[14:28:18] RDS fp-taller-p2-cli-rds en creación
+[14:28:20] EC2 fp-taller-p2-cli-ec2 en creación: i-0594037d9e13df4ca
+[14:28:25] Bucket fp-taller-p2-cli-XXXXXXXXXXXX creado
+[14:28:25] Esperando a que la EC2 esté en ejecución...
+[14:28:27] EC2 en ejecución
+[14:28:27] Esperando a que RDS esté disponible (suele tardar 5-15 minutos)...
+[14:32:55] RDS disponible
+
+===== Estado de los recursos (Metodo=cli) =====
+SG EC2       : sg-03a824b80218973bc
+SG RDS       : sg-037ae200f40c010b3
+Subnet group : fp-taller-p2-cli-subnets
+RDS          : fp-taller-p2-cli-rds | available | fp-taller-p2-cli-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com
+Secreto RDS  : arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-01b385c8-dd6c-4083-a57f-1dc69732c5aa-eCAOR6 | active
+EC2          : i-0594037d9e13df4ca
+Bucket S3    : fp-taller-p2-cli-XXXXXXXXXXXX
+===============================================

@@ -1,0 +1,31 @@
+$ python3 glue_athena.py muestra     # antes de corregir
+  SQL> SELECT venta_id, fecha, typeof(fecha) AS tipo_fecha, codigo_postal, typeof(codigo_postal) AS tipo_cp, ciudad FROM ventas ORDER BY venta_id LIMIT 4
+  -> SUCCEEDED en 0.69 s | datos escaneados: 1,997 bytes
+  venta_id | fecha      | tipo_fecha | codigo_postal | tipo_cp | ciudad
+  ---------+------------+------------+---------------+---------+-------------
+  7001     | 2026-09-04 | varchar    | 50001         | bigint  | Medellín
+  7002     | 2026-09-08 | varchar    | 110111        | bigint  | Bogotá
+  7003     | 2026-09-11 | varchar    | 80001         | bigint  | Barranquilla
+  7004     | 2026-09-17 | varchar    | 110111        | bigint  | Bogotá
+
+$ python3 glue_athena.py corregir
+Corrección de la tabla
+  fecha: string -> date  (son fechas ISO (AAAA-MM-DD); como texto no se pueden comparar ni agrupar por fecha)
+  codigo_postal: bigint -> string  (es un identificador, no una cantidad; como número pierde el 0 inicial (050001 -> 50001))
+  Tabla actualizada en el catálogo
+Corrección de las particiones
+  mes=2026-10: fecha string->date, codigo_postal bigint->string
+  mes=2026-09: fecha string->date, codigo_postal bigint->string
+  2 particiones actualizadas, errores: 0
+Esquema corregido
+  venta_id bigint | fecha date | ciudad string | codigo_postal string | categoria string | producto string
+  cantidad bigint | precio_unitario bigint | metodo_pago string | devuelto boolean | mes string (partición)
+
+$ python3 glue_athena.py muestra     # después de corregir
+  -> SUCCEEDED en 0.75 s | datos escaneados: 1,997 bytes
+  venta_id | fecha      | tipo_fecha | codigo_postal | tipo_cp | ciudad
+  ---------+------------+------------+---------------+---------+-------------
+  7001     | 2026-09-04 | date       | 050001        | varchar | Medellín
+  7002     | 2026-09-08 | date       | 110111        | varchar | Bogotá
+  7003     | 2026-09-11 | date       | 080001        | varchar | Barranquilla
+  7004     | 2026-09-17 | date       | 110111        | varchar | Bogotá

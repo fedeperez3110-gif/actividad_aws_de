@@ -1,0 +1,12 @@
+$ terraform -version
+Terraform v1.17.0
+on linux_amd64
+
+$ aws --version
+aws-cli/2.36.47 Python/3.14.6 Linux/6.18.54.1-microsoft-standard-WSL2 script-exe/x86_64.ubuntu.24
+
+$ python3 --version
+Python 3.12.14
+
+$ python3 -c "import boto3; print(boto3.__version__)"
+1.43.99

@@ -1,0 +1,38 @@
+$ python3 docdb_consultas.py 2>&1 | tee evidencias_p3_python.txt
+======================================================================
+Conexión
+======================================================================
+Secreto recuperado de Secrets Manager: usuario=taller_admin, contraseña=(oculta, 28 caracteres)
+Conectado a DocumentDB por localhost:27018 (versión de API 8.0.2)
+
+======================================================================
+Carga de datos
+======================================================================
+Insertados 12 documentos en taller.pedidos (total en la colección: 12)
+
+======================================================================
+1) Búsqueda con filtro: pedidos de Tecnología con total >= 1.000.000
+======================================================================
+  filtro: {'categoria': 'Tecnología', 'total': {'$gte': 1000000}}
+  pedido=1001 | cliente=Ana Gómez | producto=Portátil | total=3200000
+  pedido=1006 | cliente=Jorge Herrera | producto=Monitor | total=1780000
+  pedido=1012 | cliente=Daniel Ortiz | producto=Tableta | total=1300000
+
+======================================================================
+2) Ordenación: los 5 pedidos de mayor valor
+======================================================================
+  sort: total descendente, limit 5
+  pedido=1001 | cliente=Ana Gómez | ciudad=Bogotá | total=3200000
+  pedido=1006 | cliente=Jorge Herrera | ciudad=Medellín | total=1780000
+  pedido=1004 | cliente=Carlos Díaz | ciudad=Bogotá | total=1450000
+  pedido=1012 | cliente=Daniel Ortiz | ciudad=Cali | total=1300000
+  pedido=1011 | cliente=Laura Vargas | ciudad=Bogotá | total=650000
+
+======================================================================
+3) Agregación: ventas por ciudad
+======================================================================
+  pipeline: [{'$group': {'_id': '$ciudad', 'pedidos': {'$sum': 1}, 'unidades': {'$sum': '$cantidad'}, 'ventas': {'$sum': '$total'}, 'ticket_promedio': {'$avg': '$total'}}}, {'$sort': {'ventas': -1}}]
+  Bogotá        pedidos=4 unidades=7 ventas=5,560,000 ticket_promedio=1,390,000
+  Medellín      pedidos=3 unidades=6 ventas=2,580,000 ticket_promedio=860,000
+  Cali          pedidos=3 unidades=9 ventas=2,200,000 ticket_promedio=733,333
+  Barranquilla  pedidos=2 unidades=4 ventas=760,000 ticket_promedio=380,000

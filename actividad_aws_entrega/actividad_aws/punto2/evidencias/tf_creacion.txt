@@ -1,0 +1,45 @@
+$ terraform state list
+data.aws_ami.amazon_linux
+data.aws_subnets.default
+data.aws_vpc.default
+aws_db_instance.postgres
+aws_db_subnet_group.rds
+aws_instance.app
+aws_s3_bucket.datos
+aws_security_group.ec2
+aws_security_group.rds
+aws_vpc_security_group_egress_rule.ec2_salida
+aws_vpc_security_group_ingress_rule.rds_desde_ec2
+
+$ terraform output
+ami_id = "ami-01cb65bdf4b589c2d"
+bucket = "fp-taller-p2-tf-20261022"
+ec2_id = "i-042d44bc8c70426d9"
+ec2_ip_privada = "172.31.44.63"
+rds_endpoint = "fp-taller-p2-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com"
+rds_secreto_arn = "arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-07e296a3-6fd0-44a1-a104-a72a4c68dd5e-YJenwP"
+sg_ec2 = "sg-0342fe10a45484018"
+sg_rds = "sg-06ee8c3c94af111af"
+subredes = tolist([
+  "subnet-0cc98ed67e7eed8c0",
+  "subnet-0daf5e4b6a78ea861",
+  "subnet-0d8b061385cf1d3f9",
+])
+vpc_id = "vpc-0b37a726a59af6c89"
+
+$ aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId,State.Name]" --output table
+|  i-042d44bc8c70426d9 |  running  |
+$ aws rds describe-db-instances --query "DBInstances[].[DBInstanceIdentifier,DBInstanceStatus]" --output table
+|  fp-taller-p2-rds |  available  |
+
+$ aws rds describe-db-instances --db-instance-identifier fp-taller-p2-rds --query "DBInstances[0].MasterUserSecret"
+{
+    "SecretArn": "arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-07e296a3-6fd0-44a1-a104-a72a4c68dd5e-YJenwP",
+    "SecretStatus": "active",
+    "KmsKeyId": "arn:aws:kms:us-east-2:XXXXXXXXXXXX:key/e2199d15-9817-42d6-9dc6-7943c1b7303b"
+}
+
+$ grep -n '"password"' terraform.tfstate
+289:            "password": null,
+330:                "value": "password"
+# Línea 289: la contraseña no está en el estado. Línea 330: nombre del campo dentro de "sensitive_attributes".

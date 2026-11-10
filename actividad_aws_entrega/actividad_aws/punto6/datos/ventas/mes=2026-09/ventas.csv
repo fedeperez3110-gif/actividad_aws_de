@@ -1,0 +1,13 @@
+venta_id,fecha,ciudad,codigo_postal,categoria,producto,cantidad,precio_unitario,metodo_pago,devuelto
+7001,2026-09-04,Medellín,050001,Hogar,Aspiradora,1,650000,transferencia,false
+7002,2026-09-08,Bogotá,110111,Deportes,Bicicleta,4,1450000,efectivo,false
+7003,2026-09-11,Barranquilla,080001,Deportes,Bicicleta,1,1450000,efectivo,false
+7004,2026-09-17,Bogotá,110111,Tecnología,Monitor,2,890000,tarjeta,false
+7005,2026-09-18,Medellín,050001,Deportes,Balón,1,90000,tarjeta,false
+7006,2026-09-18,Bogotá,110111,Deportes,Bicicleta,3,1450000,efectivo,false
+7007,2026-09-24,Cali,760001,Hogar,Aspiradora,2,650000,efectivo,false
+7008,2026-09-25,Bogotá,110111,Libros,Novela,3,65000,tarjeta,true
+7009,2026-09-26,Cali,760001,Deportes,Balón,3,90000,efectivo,false
+7010,2026-09-27,Cali,760001,Libros,Novela,2,65000,transferencia,false
+7011,2026-09-27,Medellín,050001,Hogar,Cafetera,1,280000,tarjeta,false
+7012,2026-09-28,Cali,760001,Tecnología,Monitor,4,890000,efectivo,false

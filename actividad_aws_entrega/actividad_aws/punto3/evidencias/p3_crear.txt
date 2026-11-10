@@ -1,0 +1,21 @@
+$ bash despliegue_p3.sh crear 2>&1 | tee evidencias_p3_crear.txt
+[23:13:02] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[23:13:07] VPC: vpc-0b37a726a59af6c89 | AMI: ami-08b6f1774976ca3d5 | SSH permitido solo desde tu IP
+[23:13:10] SG fp-taller-p3-sg-tunel creado: sg-0d26eca7845406c65 (entrada 22 desde tu IP)
+[23:13:13] SG fp-taller-p3-sg-docdb creado: sg-067e88884cef74ed8 (entrada 27017 desde el SG del túnel)
+[23:13:15] Grupo de subredes fp-taller-p3-subnets creado
+[23:13:18] Clúster fp-taller-p3-docdb en creación
+[23:13:20] Instancia fp-taller-p3-docdb-1 (db.serverless) en creación
+[23:13:22] EC2 fp-taller-p3-tunel en creación: i-0c34f3631108613f3
+[23:13:37] EC2 en ejecución
+[23:13:37] Esperando a DocumentDB (suele tardar 10-15 minutos)...
+[23:18:58] DocumentDB disponible
+
+===== Estado de los recursos (punto 3) =====
+SG túnel      : sg-0d26eca7845406c65
+SG DocumentDB : sg-067e88884cef74ed8
+Clúster       : available | fp-taller-p3-docdb.cluster-cnsckgqqs1p7.us-east-2.docdb.amazonaws.com | motor 8.0.2 | 0.5-1.0 DCU
+Secreto       : arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!cluster-ea382e34-37af-49d3-abc0-b5968e470fab-sXjsuV | active
+Instancia     : db.serverless | available
+EC2 túnel     : i-0c34f3631108613f3 | running | ec2-3-15-21-91.us-east-2.compute.amazonaws.com
+============================================

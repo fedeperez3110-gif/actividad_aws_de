@@ -1,0 +1,19 @@
+$ bash despliegue_p3.sh destruir 2>&1 | tee evidencias_p3_destruir.txt
+[00:57:33] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[00:57:38] EC2 en terminación: i-0c34f3631108613f3
+[00:57:40] Instancia fp-taller-p3-docdb-1 en eliminación...
+[01:07:16] Instancia eliminada
+[01:07:19] Clúster fp-taller-p3-docdb en eliminación (su secreto administrado se borra con él)...
+[01:08:02] Clúster eliminado
+[01:08:03] EC2 terminada
+[01:08:04] Grupo de subredes fp-taller-p3-subnets eliminado
+[01:08:07] SG fp-taller-p3-sg-docdb eliminado
+[01:08:10] SG fp-taller-p3-sg-tunel eliminado
+
+===== Estado de los recursos (punto 3) =====
+SG túnel      : -
+SG DocumentDB : -
+Clúster       : -
+EC2 túnel     : -
+============================================
+

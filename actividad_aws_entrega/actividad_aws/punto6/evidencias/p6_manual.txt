@@ -1,0 +1,48 @@
+$ python3 glue_athena.py manual 2>&1 | tee evidencias_p6_manual.txt
+==============================================================================
+Creación manual de la tabla con DDL (sin crawler)
+==============================================================================
+  SQL> DROP TABLE IF EXISTS ventas_manual
+  -> SUCCEEDED en 0.37 s | datos escaneados: 0 bytes
+  SQL> CREATE EXTERNAL TABLE ventas_manual ( venta_id BIGINT, fecha DATE, ciudad STRING, codigo_postal STRING, categoria STRING, producto STRING, cantidad INT, precio_unitario BIGINT, metodo_pago STRING, devuelto BOOLEAN ) PARTITIONED BY (mes STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION 's3://fp-taller-p6-XXXXXXXXXXXX/datos/ventas/' TBLPROPERTIES ('skip.header.line.count' = '1')
+  -> SUCCEEDED en 0.44 s | datos escaneados: 0 bytes
+
+==============================================================================
+Registro de particiones de la tabla manual
+==============================================================================
+  SQL> MSCK REPAIR TABLE ventas_manual
+  -> SUCCEEDED en 3.24 s | datos escaneados: 0 bytes
+  Partitions not in metastore:  ventas_manual:mes=2026-09       ventas_manual:mes=2026-10       ventas_manual:mes=2026-11
+  ----------------------------------------------------------------------------------------------------------
+  Repair: Added partition to metastore ventas_manual:mes=2026-09
+  Repair: Added partition to metastore ventas_manual:mes=2026-10
+  Repair: Added partition to metastore ventas_manual:mes=2026-11
+
+==============================================================================
+Muestra de ventas_manual con los tipos que usa Athena
+==============================================================================
+  SQL> SELECT venta_id, fecha, typeof(fecha) AS tipo_fecha, codigo_postal, typeof(codigo_postal) AS tipo_cp, ciudad FROM ventas_manual ORDER BY venta_id LIMIT 4
+  -> SUCCEEDED en 0.67 s | datos escaneados: 2,724 bytes
+  venta_id | fecha      | tipo_fecha | codigo_postal | tipo_cp | ciudad
+  ---------+------------+------------+---------------+---------+-------------
+  7001     | 2026-09-04 | date       | 050001        | varchar | Medellín
+  7002     | 2026-09-08 | date       | 110111        | varchar | Bogotá
+  7003     | 2026-09-11 | date       | 080001        | varchar | Barranquilla
+  7004     | 2026-09-17 | date       | 110111        | varchar | Bogotá
+
+==============================================================================
+Registros por partición en ventas_manual
+==============================================================================
+  SQL> SELECT mes, COUNT(*) AS registros, MIN(fecha) AS primera_fecha, MAX(fecha) AS ultima_fecha FROM ventas_manual GROUP BY mes ORDER BY mes
+  -> SUCCEEDED en 0.66 s | datos escaneados: 2,724 bytes
+  mes     | registros | primera_fecha | ultima_fecha
+  --------+-----------+---------------+-------------
+  2026-09 | 12        | 2026-09-04    | 2026-09-28
+  2026-10 | 12        | 2026-10-05    | 2026-10-26
+  2026-11 | 8         | 2026-11-01    | 2026-11-28
+
+==============================================================================
+Comparación de las dos tablas en el catálogo
+==============================================================================
+  ventas         creada por: AWS-Crawler            fecha=date    codigo_postal=string  cantidad=bigint  SerDe=LazySimpleSerDe
+  ventas_manual  creada por: user_cli               fecha=date    codigo_postal=string  cantidad=int     SerDe=LazySimpleSerDe

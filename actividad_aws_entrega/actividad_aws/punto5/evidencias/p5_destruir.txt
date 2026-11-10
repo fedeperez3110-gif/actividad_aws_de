@@ -1,0 +1,34 @@
+$ bash despliegue_p5.sh destruir 2>&1 | tee evidencias_p5_destruir.txt
+[21:41:46] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[21:41:54] Workgroup fp-taller-p5-wg en eliminación...
+[21:41:56] Workgroup: DELETING, esperando 20 s...
+[21:42:16] Workgroup eliminado
+[21:42:22] Namespace fp-taller-p5-ns en eliminación (su secreto administrado se borra con él)...
+[21:42:24] Namespace: DELETING, esperando 20 s...
+[21:42:47] Namespace: DELETING, esperando 20 s...
+[21:43:08] Namespace: DELETING, esperando 20 s...
+[21:43:29] Namespace eliminado
+[21:43:36] SG fp-taller-p5-sg-redshift eliminado
+[21:43:44] Rol fp-taller-p5-redshift-s3 eliminado
+[21:43:51] Bucket fp-taller-p5-XXXXXXXXXXXX eliminado
+
+===== Estado de los recursos (punto 5) =====
+Bucket S3     : -
+Rol IAM       : -
+SG Redshift   : -
+Namespace     : -
+Workgroup     : -
+============================================
+
+$ aws redshift-serverless list-workgroups --query "workgroups[].workgroupName" --output json
+[]
+$ aws redshift-serverless list-namespaces --query "namespaces[].namespaceName" --output json
+[]
+$ aws redshift-serverless list-snapshots --query "snapshots[].snapshotName" --output json
+[]
+$ aws secretsmanager list-secrets --query "SecretList[].Name" --output json
+[]
+$ aws iam get-role --role-name fp-taller-p5-redshift-s3
+An error occurred (NoSuchEntity) when calling the GetRole operation: The role with name fp-taller-p5-redshift-s3 cannot be found.
+$ aws s3 ls | grep fp-taller-p5 || echo "sin bucket del punto 5"
+sin bucket del punto 5

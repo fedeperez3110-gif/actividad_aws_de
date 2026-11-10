@@ -1,0 +1,2 @@
+$ curl -s https://fp-taller-p4-neptune.cluster-cnsckgqqs1p7.us-east-2.neptune.amazonaws.com:8182/status
+{"code":"AccessDeniedException","requestId":"8ed0e11f-8e95-4301-c229-247a9ca05213","detailedMessage":"Missing Authentication Token","message":"Missing Authentication Token"}

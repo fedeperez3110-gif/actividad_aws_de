@@ -1,0 +1,118 @@
+$ python3 redshift_carga.py 2>&1 | tee evidencias_p5_python.txt
+==============================================================================
+Configuración
+==============================================================================
+Workgroup: fp-taller-p5-wg | base de datos: taller
+Autenticación: secreto de Secrets Manager redshift!fp-taller-p5-ns-taller_admin-J2Vj98
+Rol para COPY: fp-taller-p5-redshift-s3
+
+==============================================================================
+Subida de archivos a S3
+==============================================================================
+  s3://fp-taller-p5-XXXXXXXXXXXX/datos/clientes.csv (12 filas)
+  s3://fp-taller-p5-XXXXXXXXXXXX/datos/pedidos.csv (40 filas)
+
+==============================================================================
+Creación de tablas
+==============================================================================
+  SQL> DROP TABLE IF EXISTS pedidos
+  -> FINISHED en 10.66 s | filas afectadas: 0 | id 1ffb3c58…
+  SQL> DROP TABLE IF EXISTS clientes
+  -> FINISHED en 9.97 s | filas afectadas: 0 | id d63770d9…
+  SQL> CREATE TABLE clientes ( cliente_id INTEGER NOT NULL PRIMARY KEY, nombre VARCHAR(60) NOT NULL, ciudad VARCHAR(30) NOT NULL, segmento VARCHAR(20) NOT NULL, fecha_registro DATE NOT NULL ) DISTSTYLE ALL
+  -> FINISHED en 7.96 s | filas afectadas: 0 | id 920d5320…
+  SQL> CREATE TABLE pedidos ( pedido_id INTEGER NOT NULL PRIMARY KEY, cliente_id INTEGER NOT NULL REFERENCES clientes(cliente_id), fecha DATE NOT NULL, categoria VARCHAR(20) NOT NULL, producto VARCHAR(40) NOT NULL, cantidad INTEGER NOT NULL, precio_unitario DECIMAL(12,2) NOT NULL ) DISTKEY (cliente_id) SORTKEY (fecha)
+  -> FINISHED en 1.28 s | filas afectadas: 0 | id 00fbfaf1…
+
+==============================================================================
+Carga con COPY
+==============================================================================
+  SQL> COPY clientes FROM 's3://fp-taller-p5-XXXXXXXXXXXX/datos/clientes.csv' IAM_ROLE 'arn:aws:iam::XXXXXXXXXXXX:role/fp-taller-p5-redshift-s3' FORMAT AS CSV IGNOREHEADER 1 REGION 'us-east-2'
+  -> FINISHED en 3.13 s | filas afectadas: 0 | id 5820f473…
+  SQL> COPY pedidos FROM 's3://fp-taller-p5-XXXXXXXXXXXX/datos/pedidos.csv' IAM_ROLE 'arn:aws:iam::XXXXXXXXXXXX:role/fp-taller-p5-redshift-s3' FORMAT AS CSV IGNOREHEADER 1 REGION 'us-east-2'
+  -> FINISHED en 1.40 s | filas afectadas: 0 | id 90638c6c…
+  SQL> SELECT 'clientes' AS tabla, COUNT(*) AS filas FROM clientes UNION ALL SELECT 'pedidos', COUNT(*) FROM pedidos
+  -> FINISHED en 0.48 s | filas afectadas: 2 | id 553ee32e…
+  tabla    | filas
+  ---------+------
+  pedidos  | 40   
+  clientes | 12   
+
+==============================================================================
+1) Filtro: pedidos de Tecnología de más de 2.000.000 en septiembre y octubre
+==============================================================================
+  Pregunta: ¿Qué compras grandes de tecnología hubo en los dos últimos meses?
+  SQL> SELECT pedido_id, fecha, producto, cantidad, cantidad * precio_unitario AS total FROM pedidos WHERE categoria = 'Tecnología' AND fecha BETWEEN '2026-09-01' AND '2026-10-31' AND cantidad * precio_unitario > 2000000 ORDER BY totalDESC
+  -> FINISHED en 0.28 s | filas afectadas: 2 | id 55161bbe…
+  pedido_id | fecha      | producto | cantidad | total    
+  ----------+------------+----------+----------+----------
+  5036      | 2026-10-22 | Portátil | 2        | 6,400,000
+  5026      | 2026-09-27 | Monitor  | 4        | 3,560,000
+
+==============================================================================
+2) Unión: los 10 pedidos de mayor valor con los datos del cliente
+==============================================================================
+  Pregunta: ¿Quiénes hicieron los pedidos más grandes y de dónde son?
+  SQL> SELECT p.pedido_id, p.fecha, c.nombre, c.ciudad, c.segmento, p.producto, p.cantidad * p.precio_unitario AS total FROM pedidos p JOIN clientes c ON c.cliente_id = p.cliente_id ORDER BY total DESC LIMIT 10
+  -> FINISHED en 0.47 s | filas afectadas: 10 | id a09ff2e4…
+  pedido_id | fecha      | nombre        | ciudad       | segmento | producto   | total     
+  ----------+------------+---------------+--------------+----------+------------+-----------
+  5002      | 2026-07-05 | Laura Vargas  | Bogotá       | Persona  | Portátil   | 12,800,000
+  5006      | 2026-07-17 | Andrés Castro | Cali         | Persona  | Portátil   | 9,600,000 
+  5036      | 2026-10-22 | Jorge Herrera | Medellín     | Empresa  | Portátil   | 6,400,000 
+  5034      | 2026-10-17 | Andrés Castro | Cali         | Persona  | Bicicleta  | 5,800,000 
+  5012      | 2026-08-14 | Daniel Ortiz  | Cali         | Empresa  | Bicicleta  | 5,800,000 
+  5004      | 2026-07-15 | Daniel Ortiz  | Cali         | Empresa  | Bicicleta  | 4,350,000 
+  5026      | 2026-09-27 | Luis Pérez    | Medellín     | Persona  | Monitor    | 3,560,000 
+  5035      | 2026-10-19 | Felipe Moreno | Barranquilla | Empresa  | Bicicleta  | 2,900,000 
+  5032      | 2026-10-14 | Luis Pérez    | Medellín     | Persona  | Aspiradora | 2,600,000 
+  5014      | 2026-08-16 | Carlos Díaz   | Bogotá       | Persona  | Bicicleta  | 1,450,000 
+
+==============================================================================
+3) Agregación: ventas por ciudad y segmento
+==============================================================================
+  Pregunta: ¿Dónde y en qué tipo de cliente se concentran las ventas?
+  SQL> SELECT c.ciudad, c.segmento, COUNT(*) AS pedidos, SUM(p.cantidad) AS unidades, SUM(p.cantidad * p.precio_unitario) AS ventas, ROUND(AVG(p.cantidad * p.precio_unitario)) AS ticket_promedio FROM pedidos p JOIN clientes c ON c.cliente_id = p.cliente_id GROUP BY c.ciudad, c.segmento ORDER BY ventas DESC
+  -> FINISHED en 0.64 s | filas afectadas: 8 | id 4cbe686b…
+  ciudad       | segmento | pedidos | unidades | ventas     | ticket_promedio
+  -------------+----------+---------+----------+------------+----------------
+  Cali         | Persona  | 5       | 13       | 16,120,000 | 3224000        
+  Bogotá       | Persona  | 5       | 15       | 15,390,000 | 3078000        
+  Cali         | Empresa  | 4       | 11       | 10,575,000 | 2643750        
+  Medellín     | Empresa  | 6       | 12       | 9,040,000  | 1506667        
+  Medellín     | Persona  | 7       | 18       | 7,865,000  | 1123571        
+  Barranquilla | Empresa  | 6       | 16       | 5,620,000  | 936667         
+  Barranquilla | Persona  | 3       | 10       | 1,290,000  | 430000         
+  Bogotá       | Empresa  | 4       | 8        | 945,000    | 236250         
+
+==============================================================================
+4) Agregación: ventas por mes y categoría
+==============================================================================
+  Pregunta: ¿Cómo evolucionan las ventas de cada categoría mes a mes?
+  SQL> SELECT TO_CHAR(fecha, 'YYYY-MM') AS mes, categoria, COUNT(*) AS pedidos, SUM(cantidad * precio_unitario) AS ventas FROM pedidos GROUP BY 1, 2 ORDER BY 1, ventas DESC
+  -> FINISHED en 0.59 s | filas afectadas: 14 | id c9d26584…
+  mes     | categoria  | pedidos | ventas    
+  --------+------------+---------+-----------
+  2026-07 | Tecnología | 4       | 23,890,000
+  2026-07 | Deportes   | 4       | 5,070,000 
+  2026-07 | Hogar      | 1       | 660,000   
+  2026-08 | Deportes   | 2       | 7,250,000 
+  2026-08 | Tecnología | 3       | 900,000   
+  2026-08 | Libros     | 2       | 130,000   
+  2026-09 | Tecnología | 4       | 5,940,000 
+  2026-09 | Hogar      | 1       | 880,000   
+  2026-09 | Libros     | 3       | 610,000   
+  2026-09 | Deportes   | 2       | 450,000   
+  2026-10 | Deportes   | 5       | 9,600,000 
+  2026-10 | Tecnología | 3       | 7,300,000 
+  2026-10 | Hogar      | 3       | 3,480,000 
+  2026-10 | Libros     | 3       | 685,000   
+
+==============================================================================
+Consumo de cómputo registrado por Redshift Serverless
+==============================================================================
+  SQL> SELECT SUM(charged_seconds) AS rpu_segundos_cobrados, ROUND(SUM(charged_seconds) / 3600.0 * 0.36, 4) AS costo_usd_aprox FROM sys_serverless_usage
+  -> FINISHED en 2.93 s | filas afectadas: 1 | id bbb2183e…
+  rpu_segundos_cobrados | costo_usd_aprox
+  ----------------------+----------------
+  0                     | 0        

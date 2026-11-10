@@ -1,0 +1,437 @@
+data.aws_ami.amazon_linux: Reading...
+data.aws_vpc.default: Reading...
+aws_s3_bucket.datos: Refreshing state... [id=fp-taller-p2-tf-20261022]
+data.aws_ami.amazon_linux: Read complete after 1s [id=ami-01766fbdbd31a472f]
+data.aws_vpc.default: Read complete after 2s [id=vpc-0b37a726a59af6c89]
+data.aws_subnets.default: Reading...
+aws_security_group.rds: Refreshing state... [id=sg-06ee8c3c94af111af]
+aws_security_group.ec2: Refreshing state... [id=sg-0342fe10a45484018]
+data.aws_subnets.default: Read complete after 0s [id=us-east-2]
+aws_db_subnet_group.rds: Refreshing state... [id=fp-taller-p2-subnets]
+aws_vpc_security_group_egress_rule.ec2_salida: Refreshing state... [id=sgr-0869658ca49327a05]
+aws_instance.app: Refreshing state... [id=i-042d44bc8c70426d9]
+aws_vpc_security_group_ingress_rule.rds_desde_ec2: Refreshing state... [id=sgr-0a2a18d978d8b95af]
+aws_db_instance.postgres: Refreshing state... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.postgres will be destroyed
+  - resource "aws_db_instance" "postgres" {
+      - address                               = "fp-taller-p2-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com" -> null
+      - allocated_storage                     = 20 -> null
+      - apply_immediately                     = true -> null
+      - arn                                   = "arn:aws:rds:us-east-2:XXXXXXXXXXXX:db:fp-taller-p2-rds" -> null
+      - auto_minor_version_upgrade            = true -> null
+      - availability_zone                     = "us-east-2b" -> null
+      - backup_retention_period               = 0 -> null
+      - backup_target                         = "region" -> null
+      - backup_window                         = "09:42-10:12" -> null
+      - ca_cert_identifier                    = "rds-ca-rsa2048-g1" -> null
+      - copy_tags_to_snapshot                 = false -> null
+      - customer_owned_ip_enabled             = false -> null
+      - database_insights_mode                = "standard" -> null
+      - db_name                               = "taller" -> null
+      - db_subnet_group_name                  = "fp-taller-p2-subnets" -> null
+      - dedicated_log_volume                  = false -> null
+      - delete_automated_backups              = true -> null
+      - deletion_protection                   = false -> null
+      - domain_dns_ips                        = [] -> null
+      - enabled_cloudwatch_logs_exports       = [] -> null
+      - endpoint                              = "fp-taller-p2-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com:5432" -> null
+      - engine                                = "postgres" -> null
+      - engine_lifecycle_support              = "open-source-rds-extended-support" -> null
+      - engine_version                        = "17" -> null
+      - engine_version_actual                 = "17.9" -> null
+      - hosted_zone_id                        = "Z2XHWR1WZ565X2" -> null
+      - iam_database_authentication_enabled   = false -> null
+      - id                                    = "db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4" -> null
+      - identifier                            = "fp-taller-p2-rds" -> null
+      - instance_class                        = "db.t4g.micro" -> null
+      - iops                                  = 3000 -> null
+      - kms_key_id                            = "arn:aws:kms:us-east-2:XXXXXXXXXXXX:key/0743176a-6072-4d0a-b49b-99810e2f4faf" -> null
+      - license_model                         = "postgresql-license" -> null
+      - listener_endpoint                     = [] -> null
+      - maintenance_window                    = "mon:06:51-mon:07:21" -> null
+      - manage_master_user_password           = true -> null
+      - master_user_secret                    = [
+          - {
+              - kms_key_id    = "arn:aws:kms:us-east-2:XXXXXXXXXXXX:key/e2199d15-9817-42d6-9dc6-7943c1b7303b"
+              - secret_arn    = "arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-07e296a3-6fd0-44a1-a104-a72a4c68dd5e-YJenwP"
+              - secret_status = "active"
+            },
+        ] -> null
+      - max_allocated_storage                 = 0 -> null
+      - monitoring_interval                   = 0 -> null
+      - multi_az                              = false -> null
+      - network_type                          = "IPV4" -> null
+      - option_group_name                     = "default:postgres-17" -> null
+      - parameter_group_name                  = "default.postgres17" -> null
+      - password_wo                           = (write-only attribute) -> null
+      - performance_insights_enabled          = false -> null
+      - performance_insights_retention_period = 0 -> null
+      - port                                  = 5432 -> null
+      - publicly_accessible                   = false -> null
+      - region                                = "us-east-2" -> null
+      - replicas                              = [] -> null
+      - resource_id                           = "db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4" -> null
+      - skip_final_snapshot                   = true -> null
+      - status                                = "available" -> null
+      - storage_encrypted                     = true -> null
+      - storage_throughput                    = 125 -> null
+      - storage_type                          = "gp3" -> null
+      - tags                                  = {} -> null
+      - tags_all                              = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - upgrade_rollout_order                 = "second" -> null
+      - username                              = "taller_admin" -> null
+      - vpc_security_group_ids                = [
+          - "sg-06ee8c3c94af111af",
+        ] -> null
+        # (15 unchanged attributes hidden)
+    }
+
+  # aws_db_subnet_group.rds will be destroyed
+  - resource "aws_db_subnet_group" "rds" {
+      - arn                     = "arn:aws:rds:us-east-2:XXXXXXXXXXXX:subgrp:fp-taller-p2-subnets" -> null
+      - description             = "Managed by Terraform" -> null
+      - id                      = "fp-taller-p2-subnets" -> null
+      - name                    = "fp-taller-p2-subnets" -> null
+      - region                  = "us-east-2" -> null
+      - subnet_ids              = [
+          - "subnet-0cc98ed67e7eed8c0",
+          - "subnet-0d8b061385cf1d3f9",
+          - "subnet-0daf5e4b6a78ea861",
+        ] -> null
+      - supported_network_types = [
+          - "IPV4",
+        ] -> null
+      - tags                    = {} -> null
+      - tags_all                = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - vpc_id                  = "vpc-0b37a726a59af6c89" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_instance.app will be destroyed
+  - resource "aws_instance" "app" {
+      - ami                                  = "ami-01cb65bdf4b589c2d" -> null
+      - arn                                  = "arn:aws:ec2:us-east-2:XXXXXXXXXXXX:instance/i-042d44bc8c70426d9" -> null
+      - associate_public_ip_address          = false -> null
+      - availability_zone                    = "us-east-2c" -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - force_destroy                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-042d44bc8c70426d9" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t3.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-07a51b0883238c4a1" -> null
+      - private_dns                          = "ip-172-31-44-63.us-east-2.compute.internal" -> null
+      - private_ip                           = "172.31.44.63" -> null
+      - region                               = "us-east-2" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [
+          - "fp-taller-p2-sg-ec2",
+        ] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-0cc98ed67e7eed8c0" -> null
+      - tags                                 = {
+          - "Name" = "fp-taller-p2-ec2"
+        } -> null
+      - tags_all                             = {
+          - "Metodo"   = "terraform"
+          - "Name"     = "fp-taller-p2-ec2"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-0342fe10a45484018",
+        ] -> null
+        # (11 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count            = 1 -> null
+          - threads_per_core      = 2 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 2 -> null
+          - http_tokens                 = "required" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - primary_network_interface {
+          - delete_on_termination = true -> null
+          - network_interface_id  = "eni-07a51b0883238c4a1" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/xvda" -> null
+          - encrypted             = true -> null
+          - iops                  = 3000 -> null
+          - kms_key_id            = "arn:aws:kms:us-east-2:XXXXXXXXXXXX:key/01996ddb-a047-4477-bd0f-21e02a38b3f3" -> null
+          - tags                  = {} -> null
+          - tags_all              = {
+              - "Metodo"   = "terraform"
+              - "Proyecto" = "taller-aws"
+              - "Punto"    = "2"
+            } -> null
+          - throughput            = 125 -> null
+          - volume_id             = "vol-0c11c38d2d5a83b74" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp3" -> null
+        }
+    }
+
+  # aws_s3_bucket.datos will be destroyed
+  - resource "aws_s3_bucket" "datos" {
+      - arn                         = "arn:aws:s3:::fp-taller-p2-tf-20261022" -> null
+      - bucket                      = "fp-taller-p2-tf-20261022" -> null
+      - bucket_domain_name          = "fp-taller-p2-tf-20261022.s3.amazonaws.com" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-2" -> null
+      - bucket_regional_domain_name = "fp-taller-p2-tf-20261022.s3.us-east-2.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z2O1EMRO9K5GLX" -> null
+      - id                          = "fp-taller-p2-tf-20261022" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-2" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {} -> null
+      - tags_all                    = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "8b7e449227c0eb9c6d0ddd404ef675babd1a61b7e76e566c3336ad340eb8c584" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_security_group.ec2 will be destroyed
+  - resource "aws_security_group" "ec2" {
+      - arn                    = "arn:aws:ec2:us-east-2:XXXXXXXXXXXX:security-group/sg-0342fe10a45484018" -> null
+      - description            = "Grupo de seguridad de la instancia EC2 del punto 2" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-0342fe10a45484018" -> null
+      - ingress                = [] -> null
+      - name                   = "fp-taller-p2-sg-ec2" -> null
+      - owner_id               = "XXXXXXXXXXXX" -> null
+      - region                 = "us-east-2" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - vpc_id                 = "vpc-0b37a726a59af6c89" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_security_group.rds will be destroyed
+  - resource "aws_security_group" "rds" {
+      - arn                    = "arn:aws:ec2:us-east-2:XXXXXXXXXXXX:security-group/sg-06ee8c3c94af111af" -> null
+      - description            = "Grupo de seguridad de RDS PostgreSQL del punto 2" -> null
+      - egress                 = [] -> null
+      - id                     = "sg-06ee8c3c94af111af" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = []
+              - from_port        = 5432
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = [
+                  - "sg-0342fe10a45484018",
+                ]
+              - self             = false
+              - to_port          = 5432
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - name                   = "fp-taller-p2-sg-rds" -> null
+      - owner_id               = "XXXXXXXXXXXX" -> null
+      - region                 = "us-east-2" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - vpc_id                 = "vpc-0b37a726a59af6c89" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_vpc_security_group_egress_rule.ec2_salida will be destroyed
+  - resource "aws_vpc_security_group_egress_rule" "ec2_salida" {
+      - arn                    = "arn:aws:ec2:us-east-2:XXXXXXXXXXXX:security-group-rule/sgr-0869658ca49327a05" -> null
+      - cidr_ipv4              = "0.0.0.0/0" -> null
+      - id                     = "sgr-0869658ca49327a05" -> null
+      - ip_protocol            = "-1" -> null
+      - region                 = "us-east-2" -> null
+      - security_group_id      = "sg-0342fe10a45484018" -> null
+      - security_group_rule_id = "sgr-0869658ca49327a05" -> null
+      - tags_all               = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+    }
+
+  # aws_vpc_security_group_ingress_rule.rds_desde_ec2 will be destroyed
+  - resource "aws_vpc_security_group_ingress_rule" "rds_desde_ec2" {
+      - arn                          = "arn:aws:ec2:us-east-2:XXXXXXXXXXXX:security-group-rule/sgr-0a2a18d978d8b95af"-> null
+      - from_port                    = 5432 -> null
+      - id                           = "sgr-0a2a18d978d8b95af" -> null
+      - ip_protocol                  = "tcp" -> null
+      - referenced_security_group_id = "sg-0342fe10a45484018" -> null
+      - region                       = "us-east-2" -> null
+      - security_group_id            = "sg-06ee8c3c94af111af" -> null
+      - security_group_rule_id       = "sgr-0a2a18d978d8b95af" -> null
+      - tags_all                     = {
+          - "Metodo"   = "terraform"
+          - "Proyecto" = "taller-aws"
+          - "Punto"    = "2"
+        } -> null
+      - to_port                      = 5432 -> null
+    }
+
+Plan: 0 to add, 0 to change, 8 to destroy.
+
+Changes to Outputs:
+  - ami_id          = "ami-01766fbdbd31a472f" -> null
+  - bucket          = "fp-taller-p2-tf-20261022" -> null
+  - ec2_id          = "i-042d44bc8c70426d9" -> null
+  - ec2_ip_privada  = "172.31.44.63" -> null
+  - rds_endpoint    = "fp-taller-p2-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com" -> null
+  - rds_secreto_arn = "arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-07e296a3-6fd0-44a1-a104-a72a4c68dd5e-YJenwP" -> null
+  - sg_ec2          = "sg-0342fe10a45484018" -> null
+  - sg_rds          = "sg-06ee8c3c94af111af" -> null
+  - subredes        = [
+      - "subnet-0cc98ed67e7eed8c0",
+      - "subnet-0daf5e4b6a78ea861",
+      - "subnet-0d8b061385cf1d3f9",
+    ] -> null
+  - vpc_id          = "vpc-0b37a726a59af6c89" -> null
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: 
+aws_vpc_security_group_egress_rule.ec2_salida: Destroying... [id=sgr-0869658ca49327a05]
+aws_vpc_security_group_ingress_rule.rds_desde_ec2: Destroying... [id=sgr-0a2a18d978d8b95af]
+aws_s3_bucket.datos: Destroying... [id=fp-taller-p2-tf-20261022]
+aws_db_instance.postgres: Destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4]
+aws_instance.app: Destroying... [id=i-042d44bc8c70426d9]
+aws_vpc_security_group_egress_rule.ec2_salida: Destruction complete after 1s
+aws_vpc_security_group_ingress_rule.rds_desde_ec2: Destruction complete after 1s
+aws_s3_bucket.datos: Destruction complete after 1s
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 00m10s elapsed]
+aws_instance.app: Still destroying... [id=i-042d44bc8c70426d9, 00m10s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 00m20s elapsed]
+aws_instance.app: Still destroying... [id=i-042d44bc8c70426d9, 00m20s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 00m30s elapsed]
+aws_instance.app: Still destroying... [id=i-042d44bc8c70426d9, 00m30s elapsed]
+aws_instance.app: Destruction complete after 30s
+aws_security_group.ec2: Destroying... [id=sg-0342fe10a45484018]
+aws_security_group.ec2: Destruction complete after 1s
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 00m40s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 00m50s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m00s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m10s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m20s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m30s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m40s elapsed]
+aws_db_instance.postgres: Still destroying... [id=db-6EHDQK6VCGQVMQ7R7ZYN4P3XK4, 01m50s elapsed]
+aws_db_instance.postgres: Destruction complete after 1m52s
+aws_db_subnet_group.rds: Destroying... [id=fp-taller-p2-subnets]
+aws_security_group.rds: Destroying... [id=sg-06ee8c3c94af111af]
+aws_db_subnet_group.rds: Destruction complete after 0s
+aws_security_group.rds: Destruction complete after 1s
+
+Destroy complete! Resources: 8 destroyed.

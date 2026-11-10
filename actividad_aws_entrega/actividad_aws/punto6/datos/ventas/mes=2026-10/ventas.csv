@@ -1,0 +1,13 @@
+venta_id,fecha,ciudad,codigo_postal,categoria,producto,cantidad,precio_unitario,metodo_pago,devuelto
+7013,2026-10-05,Barranquilla,080001,Hogar,Aspiradora,4,650000,tarjeta,false
+7014,2026-10-09,Barranquilla,080001,Libros,Novela,4,65000,transferencia,false
+7015,2026-10-15,Barranquilla,080001,Tecnología,Monitor,2,890000,tarjeta,false
+7016,2026-10-16,Cali,760001,Libros,Novela,2,65000,tarjeta,true
+7017,2026-10-16,Medellín,050001,Deportes,Balón,3,90000,transferencia,false
+7018,2026-10-17,Barranquilla,080001,Deportes,Bicicleta,3,1450000,efectivo,false
+7019,2026-10-18,Medellín,050001,Hogar,Aspiradora,1,650000,transferencia,false
+7020,2026-10-19,Bogotá,110111,Hogar,Aspiradora,3,650000,tarjeta,false
+7021,2026-10-21,Cali,760001,Deportes,Bicicleta,4,1450000,efectivo,false
+7022,2026-10-22,Cali,760001,Deportes,Bicicleta,2,1450000,transferencia,false
+7023,2026-10-23,Barranquilla,080001,Hogar,Aspiradora,4,650000,tarjeta,false
+7024,2026-10-26,Barranquilla,080001,Libros,Novela,4,65000,tarjeta,false

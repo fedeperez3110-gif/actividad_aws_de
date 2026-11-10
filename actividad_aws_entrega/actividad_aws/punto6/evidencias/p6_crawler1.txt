@@ -1,0 +1,22 @@
+$ find . -name '*Zone.Identifier' -delete
+$ aws s3 rm s3://fp-taller-p6-XXXXXXXXXXXX/datos/ventas/ --recursive --exclude "*" --include "*Zone.Identifier"
+delete: s3://fp-taller-p6-XXXXXXXXXXXX/datos/ventas/mes=2026-09/ventas.csv:Zone.Identifier
+delete: s3://fp-taller-p6-XXXXXXXXXXXX/datos/ventas/mes=2026-10/ventas.csv:Zone.Identifier
+$ aws glue batch-delete-table --database-name taller_p6 --tables-to-delete <las 4 tablas>
+{
+    "Errors": []
+}
+$ bash despliegue_p6.sh crawler
+[22:37:37] Crawler fp-taller-p6-crawler iniciado
+[22:37:48] Crawler: RUNNING, esperando 15 s...
+[22:38:05] Crawler: RUNNING, esperando 15 s...
+[22:38:21] Última ejecución: SUCCEEDED (inicio 2026-11-09T22:37:35-05:00)
+[22:38:23] Duración: 37.348 s | tablas creadas: 1 | tablas actualizadas: 0
+
+$ bash despliegue_p6.sh estado
+===== Estado de los recursos (punto 6) =====
+Bucket S3     : fp-taller-p6-XXXXXXXXXXXX (2 objetos)
+Rol IAM       : fp-taller-p6-glue-crawler
+Base catálogo : taller_p6 | tablas: ventas
+Crawler       : fp-taller-p6-crawler | READY SUCCEEDED
+============================================

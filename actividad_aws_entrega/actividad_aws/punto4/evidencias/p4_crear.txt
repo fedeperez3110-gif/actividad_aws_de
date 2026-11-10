@@ -1,0 +1,15 @@
+$ bash despliegue_p4.sh crear 2>&1 | tee evidencias_p4_crear.txt
+[15:05:18] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[15:05:23] VPC: vpc-0b37a726a59af6c89 | ruta 0.0.0.0/0 de la tabla principal -> igw-00e2ef58ebacfbffc
+[15:05:26] SG fp-taller-p4-sg-neptune creado: sg-0b9d81af06cfb230e (entrada 8182 solo desde tu IP)
+[15:05:28] Grupo de subredes fp-taller-p4-subnets creado
+[15:05:30] Clúster fp-taller-p4-neptune (motor 1.4.8.1, IAM activada) en creación
+[15:05:32] Instancia fp-taller-p4-neptune-1 (db.t4g.medium, pública) en creación
+[15:05:32] Esperando a Neptune (suele tardar 10-15 minutos)...
+[15:15:49] Neptune disponible
+
+===== Estado de los recursos (punto 4) =====
+SG Neptune    : sg-0b9d81af06cfb230e
+Clúster       : available | fp-taller-p4-neptune.cluster-cnsckgqqs1p7.us-east-2.neptune.amazonaws.com:8182 | motor 1.4.8.1 | IAM=True
+Instancia     : db.t4g.medium | available | pública=True
+============================================

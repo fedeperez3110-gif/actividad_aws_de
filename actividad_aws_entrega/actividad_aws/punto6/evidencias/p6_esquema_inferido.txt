@@ -1,0 +1,20 @@
+$ aws glue get-table --database-name taller_p6 --name ventas --query "Table.{ubicacion: ..., clasificacion: ..., columnas: ..., particiones: ...}" --output json
+{
+    "ubicacion": "s3://fp-taller-p6-XXXXXXXXXXXX/datos/ventas/",
+    "clasificacion": "csv",
+    "columnas": [
+        ["venta_id", "bigint"],
+        ["fecha", "string"],
+        ["ciudad", "string"],
+        ["codigo_postal", "bigint"],
+        ["categoria", "string"],
+        ["producto", "string"],
+        ["cantidad", "bigint"],
+        ["precio_unitario", "bigint"],
+        ["metodo_pago", "string"],
+        ["devuelto", "boolean"]
+    ],
+    "particiones": [
+        ["mes", "string"]
+    ]
+}

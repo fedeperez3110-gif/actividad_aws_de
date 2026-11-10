@@ -1,0 +1,26 @@
+$ python3 despliegue_boto3.py crear 2>&1 | tee evidencias_boto3_crear.txt
+[23:21:30] Identidad: arn:aws:iam::XXXXXXXXXXXX:user/user_cli
+[23:21:32] VPC: vpc-0b37a726a59af6c89 | subredes: ['subnet-0daf5e4b6a78ea861', 'subnet-0d8b061385cf1d3f9', 'subnet-0cc98ed67e7eed8c0'] | AMI: ami-01766fbdbd31a472f
+[23:21:32] SG fp-taller-p2-boto3-sg-ec2 creado: sg-0030a6e13c1eb639f
+[23:21:33] SG fp-taller-p2-boto3-sg-rds creado: sg-07e0dc0d2dfe1a03a
+[23:21:34] Regla RDS <- EC2:5432 creada
+[23:21:35] DB subnet group fp-taller-p2-boto3-subnets creado
+[23:21:36] RDS fp-taller-p2-boto3-rds en creación
+[23:21:38] EC2 fp-taller-p2-boto3-ec2 en creación: i-0ed4c331863a78b9f
+[23:21:39] Bucket fp-taller-p2-boto3-XXXXXXXXXXXX creado
+[23:21:39] Esperando a que la EC2 esté en ejecución...
+[23:21:54] EC2 en ejecución
+[23:21:54] Esperando a que RDS esté disponible (suele tardar 5-15 minutos)...
+[23:26:23] RDS disponible
+
+===== Estado de los recursos (Metodo=boto3) =====
+SG EC2       : sg-0030a6e13c1eb639f
+SG RDS       : sg-07e0dc0d2dfe1a03a
+Subnet group : fp-taller-p2-boto3-subnets
+RDS          : fp-taller-p2-boto3-rds | available | fp-taller-p2-boto3-rds.cnsckgqqs1p7.us-east-2.rds.amazonaws.com
+Secreto RDS  : arn:aws:secretsmanager:us-east-2:XXXXXXXXXXXX:secret:rds!db-3fa3ffb1-50b9-431a-bd90-f24fd274f6cb-9XbiCM | active
+EC2          : i-0ed4c331863a78b9f
+Bucket S3    : fp-taller-p2-boto3-XXXXXXXXXXXX
+=================================================
+
+[23:26:27] Secreto recuperado de Secrets Manager: usuario=taller_admin, contraseña=(oculta, 28 caracteres)
